@@ -1,4 +1,4 @@
-# rpm_sensor
+# Rpm_sensor
 RPM sensor connected to a Raspberry Pi
 
 Analyze engine RPM 

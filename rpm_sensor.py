@@ -5,6 +5,7 @@
 # "rpm_sensor.py") on the Raspberry Pi and then run it from the command line using the command python3 rpm_sensor.py.
 import time
 import RPi.GPIO as GPIO
+
 # Set up GPIO pins for RPM sensor
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN)

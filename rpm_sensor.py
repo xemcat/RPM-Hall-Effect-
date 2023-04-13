@@ -25,10 +25,6 @@ while True:
     print(f"RPM: {rpm}")
 
 # DATA COLLECTION
-# Set up GPIO pins for RPM sensor
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(18, GPIO.IN)
-
 # Set up data collection parameters
 sample_rate = 100  # Hz
 duration = 10  # seconds

@@ -5,6 +5,13 @@
 # "rpm_sensor.py") on the Raspberry Pi and then run it from the command line using the command python3 rpm_sensor.py.
 import time
 import RPi.GPIO as GPIO
+import csv
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 # Set up GPIO pins for RPM sensor
 GPIO.setmode(GPIO.BCM)
@@ -50,8 +57,6 @@ while time.time() - start_time < duration:
     time_data.append(time.time() - start_time)
 
 # Write RPM data to a CSV file
-import csv
-
 with open('rpm_data.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['time', 'rpm'])
@@ -62,10 +67,6 @@ with open('rpm_data.csv', 'w', newline='') as csvfile:
 GPIO.cleanup()
 
 # DATA ANALYSIS
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
 # Read in RPM data from database
 df = pd.read_csv('rpm_data.csv')
 
@@ -145,11 +146,6 @@ def simulate_engine_changes(rpm_data, fuel_data, change_type, change_amount):
 
 
 # REPORTING
-import matplotlib.pyplot as plt
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-
-
 def generate_report(rpm_data, optimizations):
     # Create a PDF canvas
     report_name = "Engine Performance Report.pdf"

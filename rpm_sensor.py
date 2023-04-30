@@ -4,7 +4,7 @@
 # count of sensor pulses and prints the result.To run this script, you would need to save it as a Python file (e.g.
 # "rpm_sensor.py") on the Raspberry Pi and then run it from the command line using the command python3 rpm_sensor.py.
 import time
-import RPi.GPIO as GPIO
+import RPi.GPIO 
 import csv
 import pandas as pd
 import numpy as np

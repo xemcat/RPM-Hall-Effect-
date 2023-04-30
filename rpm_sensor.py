@@ -33,6 +33,8 @@ while True:
 
 # DATA COLLECTION
 # Start data collection loop
+#The data collection loop within the try block and handling the KeyboardInterrupt exception
+#The user has the ability to press Ctrl+C at any point during the data collection to stop it
 start_time = time.time()
 try:
     while time.time() - start_time < duration:

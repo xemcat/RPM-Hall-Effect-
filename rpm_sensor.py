@@ -32,39 +32,42 @@ while True:
     print(f"RPM: {rpm}")
 
 # DATA COLLECTION
-# Set up data collection parameters
-sample_rate = 100  # Hz
-duration = 10  # seconds
-
-# Create empty lists to store RPM and time data
-rpm_data = []
-time_data = []
-
 # Start data collection loop
 start_time = time.time()
-while time.time() - start_time < duration:
-    start_pulse = time.time()
-    pulse_count = 0
+try:
+    while time.time() - start_time < duration:
+        start_pulse = time.time()
+        pulse_count = 0
 
-    # Measure RPM for a fixed period of time
-    while time.time() - start_pulse < 1 / sample_rate:
-        if GPIO.input(18) == GPIO.HIGH:
-            pulse_count += 1
+        # Measure RPM for a fixed period of time
+        while time.time() - start_pulse < 1 / sample_rate:
+            if GPIO.input(18) == GPIO.HIGH:
+                pulse_count += 1
 
-    # Calculate RPM and store data
-    rpm = pulse_count * sample_rate * 60 / 2
-    rpm_data.append(rpm)
-    time_data.append(time.time() - start_time)
+        # Calculate RPM and store data
+        rpm = pulse_count * sample_rate * 60 / 2
+        rpm_data.append(rpm)
+        time_data.append(time.time() - start_time)
 
-# Write RPM data to a CSV file
-with open('rpm_data.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['time', 'rpm'])
-    for i in range(len(rpm_data)):
-        writer.writerow([time_data[i], rpm_data[i]])
+except KeyboardInterrupt:
+    print("Data collection interrupted by the user.")
 
-# Clean up GPIO pins
-GPIO.cleanup()
+finally:
+    # Write RPM data to a CSV file
+    with open('rpm_data.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['time', 'rpm'])
+        for i in range(len(rpm_data)):
+            writer.writerow([time_data[i], rpm_data[i]])
+
+    # Clean up GPIO pins
+    GPIO.cleanup()
+
+    # Provide a summary report
+    print("Data collection stopped. Summary report:")
+    print(f"Total data points collected: {len(rpm_data)}")
+    print(f"Duration of data collection: {time.time() - start_time} seconds")
+    print(f"Average RPM: {sum(rpm_data) / len(rpm_data)}")
 
 # DATA ANALYSIS
 # Read in RPM data from database

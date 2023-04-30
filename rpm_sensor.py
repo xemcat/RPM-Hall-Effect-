@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
+import sqlite3
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
@@ -151,6 +152,45 @@ def simulate_engine_changes(rpm_data, fuel_data, change_type, change_amount):
 
 
 # REPORTING
+#The RPMDataLogger class initializes a database connection and provides methods to create a table, insert data, and close the connection. 
+class RPMDataLogger:
+    def __init__(self, db_name):
+        self.db_name = db_name
+        self.conn = None
+        self.cursor = None
+
+    def connect(self):
+        self.conn = sqlite3.connect(self.db_name)
+        self.cursor = self.conn.cursor()
+
+    def create_table(self):
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS rpm_data
+                              (time REAL, rpm REAL)''')
+        self.conn.commit()
+
+    def insert_data(self, time, rpm):
+        self.cursor.execute("INSERT INTO rpm_data VALUES (?, ?)", (time, rpm))
+        self.conn.commit()
+
+    def close(self):
+        if self.cursor:
+            self.cursor.close()
+        if self.conn:
+            self.conn.close()
+
+# Example usage
+db = RPMDataLogger('data.db')
+db.connect()
+db.create_table()
+
+# Inside the data collection loop
+current_time = 0.0  # Replace with actual time value
+current_rpm = 0.0  # Replace with actual RPM value
+db.insert_data(current_time, current_rpm)
+
+# After data collection is complete
+db.close()
+
 def generate_report(rpm_data, optimizations):
     # Create a PDF canvas
     report_name = "Engine Performance Report.pdf"

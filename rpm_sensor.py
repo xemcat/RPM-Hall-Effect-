@@ -1,6 +1,6 @@
 # We're using the RPi.GPIO library to set up GPIO pins for an RPM sensor connected to a Raspberry
 # Pi. We're setting up GPIO pin 18 as an input. The script sets up a data collection loop that runs indefinitely.
-# Each iteration of the loop collects RPM data for 5 seconds using the sensor, and then calculates the RPM from the
+# Each iteration of the loop collects RPM data for 5 seconds using the sensor , and then calculates the RPM from the
 # count of sensor pulses and prints the result.To run this script, you would need to save it as a Python file (e.g.
 # "rpm_sensor.py") on the Raspberry Pi and then run it from the command line using the command python3 rpm_sensor.py.
 import time
